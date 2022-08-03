@@ -18,7 +18,6 @@ public class FindElementMaxInArray {
                 array[i][j] = Integer.parseInt(scanner.nextLine());
             }
         }
-        System.out.println(Arrays.toString(array));
         int max = array[0][0];
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
@@ -27,6 +26,14 @@ public class FindElementMaxInArray {
                 }
             }
         }
-        System.out.println("giá trị lớn nhất của mảng hai chiều nhập từ bàn phím là"+max);
+        System.out.println("giá trị lớn nhất của mảng hai chiều nhập từ bàn phím là: " + max);
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                if (max == array[i][j]) {
+                    System.out.printf(" vị trí của phần tử lớn nhất là [%d][%d]", i, j);
+                }
+            }
+
+        }
     }
 }
