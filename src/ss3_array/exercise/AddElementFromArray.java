@@ -9,8 +9,8 @@ public class AddElementFromArray {
         Scanner scanner = new Scanner(System.in);
         int index;
         String number;
-        System.out.println("nhập vào phần tử muốn thêm vào");
-        System.out.println("nhập vào vị trí muốn thay thế");
+        System.out.println("nhập vào phần tử muốn thêm vào"+"\t");
+        System.out.println("nhập vào vị trí muốn thay thế"+"\t");
         number = scanner.nextLine();
         index = scanner.nextInt();
         if (index < 0 || index > array.length) {
