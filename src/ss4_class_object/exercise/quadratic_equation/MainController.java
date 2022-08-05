@@ -19,5 +19,5 @@ public class MainController {
             System.out.println("Nghiệm đầu tiên của hệ phương trình là: " + quadraticEquation.getRoot1());
             System.out.println("Nghiệm đầu tiên của hệ phương trình là: " + quadraticEquation.getRoot2());
         }
-    }
+           }
 }
