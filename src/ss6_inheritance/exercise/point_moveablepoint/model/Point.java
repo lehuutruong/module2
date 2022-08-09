@@ -30,8 +30,8 @@ public class Point {
         this.x=x;
         this.y=y;
     }
-    public void getXY(){
-        float [] array=new float[]{x,y};
+    public float[] getXY(){
+       return new  float []{getX(),getY()};
     }
 
     @Override
