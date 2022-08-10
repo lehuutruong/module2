@@ -1,8 +1,8 @@
-package ss8_clean_code_refactoring.exercise.controller;
+package ss8_clean_code_refactoring.exercise.main.controller;
 
 import java.util.Scanner;
 
-import ss8_clean_code_refactoring.exercise.model.TennisGame;
+import ss8_clean_code_refactoring.exercise.main.model.TennisGame;
 
 public class TennisGameController extends TennisGame {
     public static void main(String[] args) {

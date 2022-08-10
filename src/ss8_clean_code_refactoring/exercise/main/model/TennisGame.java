@@ -1,4 +1,4 @@
-package ss8_clean_code_refactoring.exercise.model;
+package ss8_clean_code_refactoring.exercise.main.model;
 
 public class TennisGame {
     private static final int LOVE = 0;
