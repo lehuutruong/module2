@@ -12,7 +12,7 @@ public static boolean cotinueRunning;
 public   void menuManagementTotal(){
     cotinueRunning=true;
     while (cotinueRunning){
-        System.out.println(-----------------------------------------);
+//        System.out.println(-----------------------------------------'');
         System.out.println("chào mừng bạn đến với tui: ");
         System.out.println("1. Hệ thống học sinh");
         System.out.println("2. Hệ thống giáo viên");
@@ -21,10 +21,10 @@ public   void menuManagementTotal(){
         int choice=Integer.parseInt(scanner.nextLine());
         switch (choice){
             case 1:
-                StudentController.menuManagement();
+//                StudentController.menuManagement();
                 break;
             case 2:
-                TeacherController.menuManagementTeacher();
+//                TeacherController.menuManagementTeacher();
             case 3:
                 return;
             default:

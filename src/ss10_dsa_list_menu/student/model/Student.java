@@ -1,6 +1,6 @@
 package ss10_dsa_list_menu.student.model;
 
-public class Student extends Person {
+public abstract class Student extends Person {
     private double point;
     private String nameClass;
     public Student(){

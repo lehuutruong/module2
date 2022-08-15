@@ -21,4 +21,19 @@ public class Teacher extends Person {
                 "position='" + position + '\'' +
                 '}';
     }
+
+    @Override
+    public void setGender(String giới_tính) {
+
+    }
+
+    @Override
+    public void setScore(int điểm) {
+
+    }
+
+    @Override
+    public void setClassName(String tên_lớp) {
+
+    }
 }
