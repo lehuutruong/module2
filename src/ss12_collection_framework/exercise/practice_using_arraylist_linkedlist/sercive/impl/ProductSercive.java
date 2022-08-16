@@ -89,8 +89,13 @@ private static List<Product>productList=new ArrayList<>();
 
     @Override
     public void searchProduct() {
-   Product product=inforProduct();
-
+   Product product=this.inputProduct();
+        if(product==null){
+            System.out.println("không tìm thấy đối tượng");
+        }
+        else {
+            System.out.println("sản phẩm bạn cần tìm là: \n"+product);
+        }
     }
 
     @Override
@@ -122,6 +127,16 @@ private static List<Product>productList=new ArrayList<>();
     }
     public Product findProduct(){
         System.out.println("mời bạn nhập vào id cần xóa");
+        int id=Integer.parseInt(scanner.nextLine());
+        for (int i = 0; i <productList.size() ; i++) {
+            if(productList.get(i).getId()==id){
+                return productList.get(i);
+            }
+        }
+        return null;
+    }
+    public Product inputProduct(){
+        System.out.println("mời bạn nhập vào id cần tìm");
         int id=Integer.parseInt(scanner.nextLine());
         for (int i = 0; i <productList.size() ; i++) {
             if(productList.get(i).getId()==id){

@@ -19,7 +19,8 @@ public class ProductController {
             System.out.println("3.Cập nhật thông tin sản phẩm");
             System.out.println("4.Xóa sản phẩm");
             System.out.println("5.Sắp xếp theo giá tiền ");
-            System.out.println("6. exit");
+            System.out.println("6.Tìm kiếm sản phẩm theo id ");
+            System.out.println("7. exit");
             System.out.println("Mời bạn nhập chức năng 1-5");
             int choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
@@ -39,6 +40,9 @@ public class ProductController {
                     productService.sortProduct();
                     break;
                 case 6:
+                    productService.searchProduct();
+                    break;
+                case 7:
                     return;
                 default:
                     System.out.println("lựa chọn của bạn không đúng");
