@@ -8,6 +8,8 @@ import java.util.*;
 public class ProductSercive implements IProduct {
 private static Scanner scanner=new Scanner(System.in);
 private static List<Product>productList=new ArrayList<>();
+
+
     @Override
     public void addProduct() {
       Product product=this.inforProduct();
@@ -145,4 +147,9 @@ private static List<Product>productList=new ArrayList<>();
         }
         return null;
     }
+//    public Product checkID(){
+//        for (int i = 0; i < ; i++) {
+//            if(productList.get(i).getId().equals())
+//        }
+//    }
 }

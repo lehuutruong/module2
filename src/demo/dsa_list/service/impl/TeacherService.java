@@ -55,7 +55,7 @@ public class TeacherService  implements ITeacherService {
         int choose;
         do {
             System.out.println("---------------------------------------------");
-            System.out.println("Sinh viên cần chỉnh sửa:");
+            System.out.println("Giáo viên cần chỉnh sửa:");
             System.out.println(teacher.toString());
             System.out.println("Bạn muốn chỉnh sửa nội dung nào?");
             System.out.println("1. ID");
@@ -97,7 +97,7 @@ public class TeacherService  implements ITeacherService {
     }
 
     public Teacher getInforTeacher() {
-        System.out.println("Vui lòng nhập thông tin cho giáo viên: ");
+        System.out.println("Vui lòng nhập thông tin c ho giáo viên: ");
         System.out.println("Id= ");
         int id = Integer.parseInt(scanner.nextLine());
         System.out.print("Tên = ");
