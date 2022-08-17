@@ -17,9 +17,10 @@ public class StudentController {
             System.out.println("2. Thêm mới học sinh");
             System.out.println("3. Cập nhật thông tin học sinh");
             System.out.println("4. Xóa học sinh");
-            System.out.println("5. Trở lại CodeGym menu");
-            System.out.println("6. Thoát");
-            System.out.print("Mời bạn nhập chức năng 1->6: ");
+            System.out.println("5. Tìm kiếm sinh viên");
+            System.out.println("6. Trở lại menu chính");
+            System.out.println("7. Thoát");
+            System.out.print("Mời bạn nhập chức năng 1->7: ");
             choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
                 case 1:
@@ -35,8 +36,11 @@ public class StudentController {
                     studentService.deleteStudent();
                     break;
                 case 5:
-                    return;
+                    studentService.searchStudent();
+                    break;
                 case 6:
+                    return;
+                case 7:
                     MainController.continueRunning = false;
                     return;
                 default:

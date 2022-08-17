@@ -15,9 +15,10 @@ public class TeacherController {
             System.out.println("2. Thêm mới giáo viên");
             System.out.println("3. Cập nhật thông tin giáo viên");
             System.out.println("4. Xóa giáo viên");
-            System.out.println("5. Trở lại CodeGym menu");
-            System.out.println("6. Thoát");
-            System.out.print("Mời bạn nhập chức năng 1->6: ");
+            System.out.println("5. Tìm kiếm giáo viên ");
+            System.out.println("6. Trở lại menu chính ");
+            System.out.println("7. Thoát");
+            System.out.print("Mời bạn nhập chức năng 1->7: ");
             int choose = Integer.parseInt(scanner.nextLine());
             switch (choose) {
                 case 1:
@@ -33,8 +34,11 @@ public class TeacherController {
                     iTeacherService.deleteTeacher();
                     break;
                 case 5:
-                    return;
+                    iTeacherService.searchTeach();
+                    break;
                 case 6:
+                    return;
+                case 7:
                     MainController.continueRunning = false;
                     return;
                 default:

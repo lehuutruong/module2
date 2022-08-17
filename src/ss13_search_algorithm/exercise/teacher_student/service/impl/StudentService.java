@@ -1,6 +1,7 @@
 package ss13_search_algorithm.exercise.teacher_student.service.impl;
 
 import ss13_search_algorithm.exercise.teacher_student.model.Student;
+import ss13_search_algorithm.exercise.teacher_student.model.Teacher;
 import ss13_search_algorithm.exercise.teacher_student.service.IStudent;
 
 import java.util.ArrayList;
@@ -97,7 +98,27 @@ public class StudentService implements IStudent {
 
     @Override
     public void searchStudent() {
-
+        System.out.println("BẠn muốn chọn tìm kiếm theo hạng mục nào");
+        System.out.println("1.Tìm kiếm theo id");
+        System.out.println("2.Tìm kiếm theo têm");
+        int choice = Integer.parseInt(scanner.nextLine());
+        if (choice == 1) {
+            Student student = this.inputStudent();
+            if (student == null) {
+                System.out.println("không tìm thấy đối tượng");
+            } else {
+                System.out.println("Giáo viên bạn cần tìm là: \n" + student);
+            }
+        } else if (choice == 2) {
+            Student student = this.inputNameStudent();
+            if (student == null) {
+                System.out.println("không tìm thấy đối tượng");
+            } else {
+                System.out.println("Giáo viên bạn cần tìm là:\n" + student);
+            }
+        } else {
+            System.out.println("Bạn chọn sai mục");
+        }
     }
     public Student getInforStudent(){
         System.out.println("Vui lòng nhập thông tin cho sinh viên: ");
@@ -128,6 +149,28 @@ public class StudentService implements IStudent {
             if (studentList.get(i).getId() == id) {
                 return studentList.get(i);
             }
+        }
+        return null;
+    }
+    public Student inputStudent(){
+        System.out.println("mời bạn nhập vào id cần tìm");
+        int id=Integer.parseInt(scanner.nextLine());
+        for (int i = 0; i <studentList.size() ; i++) {
+            if(studentList.get(i).getId()==id){
+                return studentList.get(i);
+            }
+        }
+        return null;
+}
+    public Student inputNameStudent() {
+        System.out.println("mời bạn nhập vào tên bạn cần tìm");
+        String name = scanner.nextLine();
+        for (Student student : studentList
+        ) {
+            if (student.getName().contains(name)) {
+                System.out.println(student);
+            }
+
         }
         return null;
     }

@@ -7,31 +7,52 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TeacherService implements ITeacher {
-    public Scanner scanner=new Scanner(System.in);
-    private  static List<Teacher> teacherList=new ArrayList<>();
-      @Override
-    public  void deleteTeacher() {
-     Teacher teacher=findTeacher("Xóa");
-        if(teacher==null){
+    public Scanner scanner = new Scanner(System.in);
+    private static List<Teacher> teacherList = new ArrayList<>();
+
+    @Override
+    public void deleteTeacher() {
+        Teacher teacher = findTeacher("Xóa");
+        if (teacher == null) {
             System.out.println("Id này trong danh sách không tồn tại");
             return;
         }
-          System.out.println("Bạn có chắn chắn muốn xóa giáo viên không ");
-          System.out.println("1.Có");
-          System.out.println("2.Không");
-          int choice=Integer.parseInt(scanner.nextLine());
-          if(choice==1){
-              teacherList.remove(teacher);
-              System.out.println("Xóa giáo viên thành công ");
-          }
-          else {
-              System.out.println("Xóa giáo viên không thành không");
-          }
+        System.out.println("Bạn có chắn chắn muốn xóa giáo viên không ");
+        System.out.println("1.Có");
+        System.out.println("2.Không");
+        int choice = Integer.parseInt(scanner.nextLine());
+        if (choice == 1) {
+            teacherList.remove(teacher);
+            System.out.println("Xóa giáo viên thành công ");
+        } else {
+            System.out.println("Xóa giáo viên không thành không");
+        }
 
     }
 
     @Override
     public void searchTeach() {
+        System.out.println("BẠn muốn chọn tìm kiếm theo hạng mục nào");
+        System.out.println("1.Tìm kiếm theo id");
+        System.out.println("2.Tìm kiếm theo têm");
+        int choice = Integer.parseInt(scanner.nextLine());
+        if (choice == 1) {
+            Teacher teacher = this.inputTeacher();
+            if (teacher == null) {
+                System.out.println("không tìm thấy đối tượng");
+            } else {
+                System.out.println("Giáo viên bạn cần tìm là: \n" + teacher);
+            }
+        } else if (choice == 2) {
+            Teacher teacher = this.inputNameTeacher();
+            if (teacher == null) {
+                System.out.println("không tìm thấy đối tượng");
+            } else {
+                System.out.println("Giáo viên bạn cần tìm là:\n" + teacher);
+            }
+        } else {
+            System.out.println("Bạn chọn sai mục");
+        }
 
     }
 
@@ -43,7 +64,7 @@ public class TeacherService implements ITeacher {
 
     @Override
     public void displayTeacher() {
-        for (Teacher item:teacherList
+        for (Teacher item : teacherList
         ) {
             System.out.println(item.toString());
         }
@@ -51,7 +72,7 @@ public class TeacherService implements ITeacher {
 
     @Override
     public void editTeacher() {
-     Teacher teacher=findTeacher("chỉnh sửa");
+        Teacher teacher = findTeacher("chỉnh sửa");
         int choose;
         do {
             System.out.println("--------------------");
@@ -95,32 +116,59 @@ public class TeacherService implements ITeacher {
             }
         } while (true);
     }
-    public Teacher inforTeacher(){
+
+    public Teacher inforTeacher() {
         System.out.println("Mời bạn nhập vào thông tin giáo viên:");
         System.out.println("Nhập vào id=");
-        int id=Integer.parseInt(scanner.nextLine());
+        int id = Integer.parseInt(scanner.nextLine());
         System.out.println("Nhập vào tên giáo viên");
-        String name=scanner.nextLine();
+        String name = scanner.nextLine();
         System.out.println("Nhập vào ngày sinh của giáo viên:");
-        String dateOfBirth=scanner.nextLine();
+        String dateOfBirth = scanner.nextLine();
         System.out.println("Nhập vào giới tính giáo viên:");
-        String gender=scanner.nextLine();
+        String gender = scanner.nextLine();
         System.out.println("Nhập vào chuyên môn của giáo viên");
-        String speciality=scanner.nextLine();
-       return new Teacher(id,name,dateOfBirth,gender,speciality);
+        String speciality = scanner.nextLine();
+        return new Teacher(id, name, dateOfBirth, gender, speciality);
     }
-    public Teacher findTeacher(String taskName){
-        System.out.println("Mời bạn nhập vào id cần tìm:"+taskName);
-        int id=Integer.parseInt(scanner.nextLine());
-        for (int i = 0; i <teacherList.size() ; i++) {
-            if(teacherList.get(i).getId()==id){
+
+    public Teacher findTeacher(String taskName) {
+        System.out.println("Mời bạn nhập vào id cần tìm:" + taskName);
+        int id = Integer.parseInt(scanner.nextLine());
+        for (int i = 0; i < teacherList.size(); i++) {
+            if (teacherList.get(i).getId() == id) {
                 return teacherList.get(i);
             }
         }
         return null;
     }
-    public String editInfoTeacher(String editContent){
-        System.out.println("Mời bạn nhập "+editContent+"mới:");
+
+    public String editInfoTeacher(String editContent) {
+        System.out.println("Mời bạn nhập " + editContent + "mới:");
         return scanner.nextLine();
+    }
+
+    public Teacher inputTeacher() {
+        System.out.println("mời bạn nhập vào id cần tìm");
+        int id = Integer.parseInt(scanner.nextLine());
+        for (int i = 0; i < teacherList.size(); i++) {
+            if (teacherList.get(i).getId() == id) {
+                return teacherList.get(i);
+            }
+        }
+        return null;
+    }
+
+    public Teacher inputNameTeacher() {
+        System.out.println("mời bạn nhập vào tên bạn cần tìm");
+        String name = scanner.nextLine();
+        for (Teacher teacher : teacherList
+        ) {
+            if (teacher.getName().contains(name)) {
+                System.out.println(teacher);
+            }
+
+        }
+        return null;
     }
 }
