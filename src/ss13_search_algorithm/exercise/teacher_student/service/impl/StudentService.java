@@ -122,26 +122,7 @@ public class StudentService implements IStudent {
 
     @Override
     public void sortIdStudent() {
-        System.out.println("1.Sắp xếp theo giá tăng dần");
-        System.out.println("2.Sắp xếp theo giá giảm dần");
-        int choice = Integer.parseInt(scanner.nextLine());
-        if (choice == 1) {
-            Collections.sort(studentList, new Comparator<Student>() {
-                @Override
-                public int compare(Student o1, Student o2) {
-                    return o1.getId().compareTo(o2.getId());
-                }
-            });
-        } else if (choice == 2) {
-            Collections.sort(studentList, new Comparator<Student>() {
-                @Override
-                public int compare(Student o1, Student o2) {
-                    return o2.getId().compareTo(o1.getId());
-                }
-            });
-        } else {
-            System.out.println("bạn nhập số không đúng");
-        }
+
     }
 
     @Override

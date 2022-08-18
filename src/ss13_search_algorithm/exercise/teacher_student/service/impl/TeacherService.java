@@ -57,30 +57,7 @@ public class TeacherService implements ITeacher {
 
     @Override
     public void sortIdTeach() {
-        System.out.println("1.Sắp xếp theo giá tăng dần");
-        System.out.println("2.Sắp xếp theo giá giảm dần");
-        int choice=Integer.parseInt(scanner.nextLine());
-        if(choice==1){
-            Collections.sort(teacherList, new Comparator<Teacher>() {
-                @Override
-                public int compare(Teacher o1, Teacher o2) {
-                    return o1.getId().compareTo(o2.getId());
-                }
-            });
-        }
-        else
-        if (choice==2){
-            Collections.sort(teacherList, new Comparator<Teacher>() {
-                @Override
-                public int compare(Teacher o1, Teacher o2) {
-                    return o2.getId().compareTo(o1.getId());
-                }
-            });
-            Collections.reverse(teacherList);
-        }
-        else {
-            System.out.println("bạn nhập số không đúng");
-        }
+
     }
 
     @Override
