@@ -1,10 +1,9 @@
 package ss13_search_algorithm.exercise.teacher_student.service.impl;
+import ss13_search_algorithm.exercise.teacher_student.model.Student;
 import ss13_search_algorithm.exercise.teacher_student.model.Teacher;
 import ss13_search_algorithm.exercise.teacher_student.service.ITeacher;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class TeacherService implements ITeacher {
     public Scanner scanner = new Scanner(System.in);
@@ -38,7 +37,7 @@ public class TeacherService implements ITeacher {
         int choice = Integer.parseInt(scanner.nextLine());
         if (choice == 1) {
             Teacher teacher = this.inputTeacher();
-            if (teacher == null) {
+            if(teacher == null) {
                 System.out.println("không tìm thấy đối tượng");
             } else {
                 System.out.println("Giáo viên bạn cần tìm là: \n" + teacher);
@@ -54,6 +53,50 @@ public class TeacherService implements ITeacher {
             System.out.println("Bạn chọn sai mục");
         }
 
+    }
+
+    @Override
+    public void sortIdTeach() {
+        System.out.println("1.Sắp xếp theo giá tăng dần");
+        System.out.println("2.Sắp xếp theo giá giảm dần");
+        int choice=Integer.parseInt(scanner.nextLine());
+        if(choice==1){
+            Collections.sort(teacherList, new Comparator<Teacher>() {
+                @Override
+                public int compare(Teacher o1, Teacher o2) {
+                    return o1.getId().compareTo(o2.getId());
+                }
+            });
+        }
+        else
+        if (choice==2){
+            Collections.sort(teacherList, new Comparator<Teacher>() {
+                @Override
+                public int compare(Teacher o1, Teacher o2) {
+                    return o2.getId().compareTo(o1.getId());
+                }
+            });
+            Collections.reverse(teacherList);
+        }
+        else {
+            System.out.println("bạn nhập số không đúng");
+        }
+    }
+
+    @Override
+    public void sortNameTeach() {
+        boolean isSwap = true;
+        for (int i = 0; i < teacherList.size() - 1 && isSwap; i++) {
+            isSwap = false;
+            for (int j = 0; j < teacherList.size() - 1 - i; j++) {
+                if (teacherList.get(j).getName().compareTo(teacherList.get(j+1).getName())>0) {
+                    isSwap = true;
+                    Teacher temp = teacherList.get(j+1);
+                    teacherList.set(j+1,teacherList.get(j));
+                    teacherList.set(j,temp);
+                }
+            }
+        }
     }
 
     @Override
@@ -90,7 +133,7 @@ public class TeacherService implements ITeacher {
 
             switch (choose) {
                 case 1:
-                    teacher.setId(Integer.parseInt(editInfoTeacher("ID")));
+                    teacher.setId(editInfoTeacher("ID"));
                     break;
                 case 2:
                     teacher.setName(editInfoTeacher("tên"));
@@ -120,7 +163,7 @@ public class TeacherService implements ITeacher {
     public Teacher inforTeacher() {
         System.out.println("Mời bạn nhập vào thông tin giáo viên:");
         System.out.println("Nhập vào id=");
-        int id = Integer.parseInt(scanner.nextLine());
+        String id = scanner.nextLine();
         System.out.println("Nhập vào tên giáo viên");
         String name = scanner.nextLine();
         System.out.println("Nhập vào ngày sinh của giáo viên:");
@@ -134,10 +177,11 @@ public class TeacherService implements ITeacher {
 
     public Teacher findTeacher(String taskName) {
         System.out.println("Mời bạn nhập vào id cần tìm:" + taskName);
-        int id = Integer.parseInt(scanner.nextLine());
-        for (int i = 0; i < teacherList.size(); i++) {
-            if (teacherList.get(i).getId() == id) {
-                return teacherList.get(i);
+        String id =scanner.nextLine();
+        for (Teacher teacher : teacherList
+        ) {
+            if (teacher.getId().equals(id)) {
+                System.out.println(teacher);
             }
         }
         return null;
@@ -150,11 +194,13 @@ public class TeacherService implements ITeacher {
 
     public Teacher inputTeacher() {
         System.out.println("mời bạn nhập vào id cần tìm");
-        int id = Integer.parseInt(scanner.nextLine());
-        for (int i = 0; i < teacherList.size(); i++) {
-            if (teacherList.get(i).getId() == id) {
-                return teacherList.get(i);
+        String id = scanner.nextLine();
+        for (Teacher teacher : teacherList
+        ) {
+            if (teacher.getId().equals(id)) {
+                System.out.println(teacher);
             }
+
         }
         return null;
     }
@@ -171,4 +217,5 @@ public class TeacherService implements ITeacher {
         }
         return null;
     }
+
 }

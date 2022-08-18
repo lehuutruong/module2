@@ -16,8 +16,9 @@ public class TeacherController {
             System.out.println("3. Cập nhật thông tin giáo viên");
             System.out.println("4. Xóa giáo viên");
             System.out.println("5. Tìm kiếm giáo viên ");
-            System.out.println("6. Trở lại menu chính ");
-            System.out.println("7. Thoát");
+            System.out.println("6. Săp xếp giáo viên ");
+            System.out.println("7. Trở lại menu chính ");
+            System.out.println("8. Thoát");
             System.out.print("Mời bạn nhập chức năng 1->7: ");
             int choose = Integer.parseInt(scanner.nextLine());
             switch (choose) {
@@ -37,8 +38,11 @@ public class TeacherController {
                     iTeacherService.searchTeach();
                     break;
                 case 6:
-                    return;
+                    iTeacherService.sortNameTeach();
+                    break;
                 case 7:
+                    return;
+                case 8:
                     MainController.continueRunning = false;
                     return;
                 default:

@@ -1,6 +1,8 @@
 package ss13_search_algorithm.exercise.teacher_student.model;
 
-public class Teacher  extends Person{
+import java.util.Comparator;
+
+public class Teacher  extends Person {
     private String speciality;
     public Teacher(){
 
@@ -10,7 +12,7 @@ public class Teacher  extends Person{
         this.speciality = speciality;
     }
 
-    public Teacher(int id, String name, String gender, String dateOfBirth, String speciality) {
+    public Teacher(String id, String name, String gender, String dateOfBirth, String speciality) {
         super(id, name, gender, dateOfBirth);
         this.speciality = speciality;
     }
@@ -29,4 +31,5 @@ public class Teacher  extends Person{
                 "speciality='" + speciality + '\'' +
                 '}';
     }
+
 }

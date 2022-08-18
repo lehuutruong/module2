@@ -18,8 +18,9 @@ public class StudentController {
             System.out.println("3. Cập nhật thông tin học sinh");
             System.out.println("4. Xóa học sinh");
             System.out.println("5. Tìm kiếm sinh viên");
-            System.out.println("6. Trở lại menu chính");
-            System.out.println("7. Thoát");
+            System.out.println("6. Sắp xếp sinh viên");
+            System.out.println("7. Trở lại menu chính");
+            System.out.println("8. Thoát");
             System.out.print("Mời bạn nhập chức năng 1->7: ");
             choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
@@ -39,8 +40,11 @@ public class StudentController {
                     studentService.searchStudent();
                     break;
                 case 6:
-                    return;
+                    studentService.sortNameStudent();
+                    break;
                 case 7:
+                    return;
+                case 8:
                     MainController.continueRunning = false;
                     return;
                 default:

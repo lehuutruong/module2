@@ -15,7 +15,7 @@ public class StudentController {
             System.out.println("2. Thêm mới học sinh");
             System.out.println("3. Cập nhật thông tin học sinh");
             System.out.println("4. Xóa học sinh");
-            System.out.println("5. Trở lại CodeGym menu");
+            System.out.println("5. Trở lại menu chính");
             System.out.println("6. Thoát");
             System.out.print("Mời bạn nhập chức năng 1->6: ");
             choice = Integer.parseInt(scanner.nextLine());

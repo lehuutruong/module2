@@ -6,4 +6,6 @@ public interface IStudent{
     void deleteStudent();
     void editStudent();
     void searchStudent();
+    void sortIdStudent();
+    void sortNameStudent();
 }

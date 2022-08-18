@@ -6,5 +6,6 @@ public interface ITeacher {
     void editTeacher();
     void deleteTeacher();
     void searchTeach();
-
+     void sortIdTeach();
+     void sortNameTeach();
 }

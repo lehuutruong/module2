@@ -1,7 +1,7 @@
 package ss13_search_algorithm.exercise.teacher_student.model;
 
 public class Person {
-    private int id;
+    private String id;
     private String name;
     private String gender;
     private String dateOfBirth;
@@ -9,18 +9,18 @@ public class Person {
     public Person() {
     }
 
-    public Person(int id, String name, String gender, String dateOfBirth) {
+    public Person(String id, String name, String gender, String dateOfBirth) {
         this.id = id;
         this.name = name;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

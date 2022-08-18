@@ -4,13 +4,12 @@ import ss13_search_algorithm.exercise.teacher_student.model.Student;
 import ss13_search_algorithm.exercise.teacher_student.model.Teacher;
 import ss13_search_algorithm.exercise.teacher_student.service.IStudent;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class StudentService implements IStudent {
-    public Scanner scanner=new Scanner(System.in);
-    private static List<Student> studentList=new ArrayList<>();
+    public Scanner scanner = new Scanner(System.in);
+    private static List<Student> studentList = new ArrayList<>();
+
     @Override
     public void addStudent() {
         studentList.add(getInforStudent());
@@ -20,7 +19,7 @@ public class StudentService implements IStudent {
     @Override
     public void displayStudent() {
         System.out.println("-------Danh sách sinh viên-----------");
-        for (Student student:studentList
+        for (Student student : studentList
         ) {
             System.out.println(student.toString());
         }
@@ -66,7 +65,7 @@ public class StudentService implements IStudent {
 
             switch (choose) {
                 case 1:
-                    student.setId(Integer.parseInt(getEditInfor("ID")));
+                    student.setId(getEditInfor("ID"));
                     break;
                 case 2:
                     student.setName(getEditInfor("tên"));
@@ -120,10 +119,51 @@ public class StudentService implements IStudent {
             System.out.println("Bạn chọn sai mục");
         }
     }
-    public Student getInforStudent(){
+
+    @Override
+    public void sortIdStudent() {
+        System.out.println("1.Sắp xếp theo giá tăng dần");
+        System.out.println("2.Sắp xếp theo giá giảm dần");
+        int choice = Integer.parseInt(scanner.nextLine());
+        if (choice == 1) {
+            Collections.sort(studentList, new Comparator<Student>() {
+                @Override
+                public int compare(Student o1, Student o2) {
+                    return o1.getId().compareTo(o2.getId());
+                }
+            });
+        } else if (choice == 2) {
+            Collections.sort(studentList, new Comparator<Student>() {
+                @Override
+                public int compare(Student o1, Student o2) {
+                    return o2.getId().compareTo(o1.getId());
+                }
+            });
+        } else {
+            System.out.println("bạn nhập số không đúng");
+        }
+    }
+
+    @Override
+    public void sortNameStudent() {
+        boolean isSwap = true;
+        for (int i = 0; i < studentList.size() - 1 && isSwap; i++) {
+            isSwap = false;
+            for (int j = 0; j < studentList.size() - 1 - i; j++) {
+                if (studentList.get(j).getName().compareTo(studentList.get(j+1).getName())>0) {
+                    isSwap = true;
+                    Student temp = studentList.get(j+1);
+                    studentList.set(j+1,studentList.get(j));
+                    studentList.set(j,temp);
+                }
+            }
+        }
+    }
+
+    public Student getInforStudent() {
         System.out.println("Vui lòng nhập thông tin cho sinh viên: ");
         System.out.print("ID = ");
-        int id = Integer.parseInt(scanner.nextLine());
+        String id = scanner.nextLine();
         System.out.print("Tên = ");
         String name = scanner.nextLine();
         System.out.print("Ngày sinh = ");
@@ -137,6 +177,7 @@ public class StudentService implements IStudent {
 
         return new Student(id, name, dateOfBirth, gender, score, className);
     }
+
     public String getEditInfor(String editContent) {
         System.out.print("Vui lòng nhập " + editContent + " mới: ");
         return scanner.nextLine();
@@ -144,24 +185,30 @@ public class StudentService implements IStudent {
 
     public Student findStudentByID(String taskName) {
         System.out.print("Vui lòng nhập ID của Học sinh cần " + taskName);
-        int id = Integer.parseInt(scanner.nextLine());
-        for (int i = 0; i < studentList.size(); i++) {
-            if (studentList.get(i).getId() == id) {
-                return studentList.get(i);
+        String id = scanner.nextLine();
+        for (Student student : studentList
+        ) {
+            if (student.getId().equals(id)) {
+                System.out.println(student);
             }
+
         }
         return null;
     }
-    public Student inputStudent(){
+
+    public Student inputStudent() {
         System.out.println("mời bạn nhập vào id cần tìm");
-        int id=Integer.parseInt(scanner.nextLine());
-        for (int i = 0; i <studentList.size() ; i++) {
-            if(studentList.get(i).getId()==id){
-                return studentList.get(i);
+        String id = scanner.nextLine();
+        for (Student student : studentList
+        ) {
+            if (student.getId().equals(id)) {
+                System.out.println(student);
             }
+
         }
         return null;
-}
+    }
+
     public Student inputNameStudent() {
         System.out.println("mời bạn nhập vào tên bạn cần tìm");
         String name = scanner.nextLine();

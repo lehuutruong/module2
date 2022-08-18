@@ -1,6 +1,8 @@
 package ss13_search_algorithm.exercise.teacher_student.model;
 
-public class Student  extends Person{
+import java.util.concurrent.ConcurrentMap;
+
+public class Student  extends Person {
     private double score;
     private String nameClass;
     public Student(){
@@ -12,7 +14,7 @@ public class Student  extends Person{
         this.nameClass = nameClass;
     }
 
-    public Student(int id, String name, String gender, String dateOfBirth, double score, String nameClass) {
+    public Student(String id, String name, String gender, String dateOfBirth, double score, String nameClass) {
         super(id, name, gender, dateOfBirth);
         this.score = score;
         this.nameClass = nameClass;
