@@ -143,8 +143,22 @@ public class StudentService implements IStudent {
 
     public Student getInforStudent() {
         System.out.println("Vui lòng nhập thông tin cho sinh viên: ");
-        System.out.print("ID = ");
-        String id = scanner.nextLine();
+        String id;
+        while (true) {
+            boolean checkId = false;
+            System.out.println("Mời bạn nhập id");
+            id = scanner.nextLine();
+            for (Student item : studentList
+            ) {
+                if (item.getId().equalsIgnoreCase(id)) {
+                    System.out.println("đã có id này rồi");
+                    checkId = true;
+                }
+            }
+            if (!checkId) {
+                break;
+            }
+        }
         System.out.print("Tên = ");
         String name = scanner.nextLine();
         System.out.print("Ngày sinh = ");
@@ -183,7 +197,7 @@ public class StudentService implements IStudent {
         for (Student student : studentList
         ) {
             if (student.getId().equals(id)) {
-                System.out.println(student);
+                return student;
             }
 
         }
@@ -196,7 +210,7 @@ public class StudentService implements IStudent {
         for (Student student : studentList
         ) {
             if (student.getName().contains(name)) {
-                System.out.println(student);
+                return student;
             }
 
         }

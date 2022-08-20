@@ -7,4 +7,5 @@ public class MainView {
         MainController mainController=new MainController();
         mainController.menuManagement();
     }
+
 }

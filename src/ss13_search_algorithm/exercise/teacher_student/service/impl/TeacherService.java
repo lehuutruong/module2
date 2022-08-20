@@ -1,4 +1,5 @@
 package ss13_search_algorithm.exercise.teacher_student.service.impl;
+
 import ss13_search_algorithm.exercise.teacher_student.model.Student;
 import ss13_search_algorithm.exercise.teacher_student.model.Teacher;
 import ss13_search_algorithm.exercise.teacher_student.service.ITeacher;
@@ -8,6 +9,15 @@ import java.util.*;
 public class TeacherService implements ITeacher {
     public Scanner scanner = new Scanner(System.in);
     private static List<Teacher> teacherList = new ArrayList<>();
+
+    static {
+        Teacher teacher = new Teacher("14j", "truong", "112", "1212", "1212");
+        Teacher teacher1 = new Teacher("18", "nam", "112", "1212", "1212");
+        Teacher teacher2 = new Teacher("9", "uy", "112", "1212", "1212");
+        teacherList.add(teacher);
+        teacherList.add(teacher1);
+        teacherList.add(teacher2);
+    }
 
     @Override
     public void deleteTeacher() {
@@ -37,22 +47,21 @@ public class TeacherService implements ITeacher {
         int choice = Integer.parseInt(scanner.nextLine());
         if (choice == 1) {
             Teacher teacher = this.inputTeacher();
-            if(teacher == null) {
-                System.out.println("không tìm thấy đối tượng");
-            } else {
+            if (teacher != null) {
                 System.out.println("Giáo viên bạn cần tìm là: \n" + teacher);
-            }
+            } else
+                System.out.println("không tìm thấy đối tượng");
         } else if (choice == 2) {
             Teacher teacher = this.inputNameTeacher();
-            if (teacher == null) {
-                System.out.println("không tìm thấy đối tượng");
-            } else {
+            if (teacher != null) {
                 System.out.println("Giáo viên bạn cần tìm là:\n" + teacher);
+            } else {
+
+                System.out.println("không tìm thấy đối tượng");
             }
         } else {
             System.out.println("Bạn chọn sai mục");
         }
-
     }
 
     @Override
@@ -66,11 +75,11 @@ public class TeacherService implements ITeacher {
         for (int i = 0; i < teacherList.size() - 1 && isSwap; i++) {
             isSwap = false;
             for (int j = 0; j < teacherList.size() - 1 - i; j++) {
-                if (teacherList.get(j).getName().compareTo(teacherList.get(j+1).getName())>0) {
+                if (teacherList.get(j).getName().compareTo(teacherList.get(j + 1).getName()) > 0) {
                     isSwap = true;
-                    Teacher temp = teacherList.get(j+1);
-                    teacherList.set(j+1,teacherList.get(j));
-                    teacherList.set(j,temp);
+                    Teacher temp = teacherList.get(j + 1);
+                    teacherList.set(j + 1, teacherList.get(j));
+                    teacherList.set(j, temp);
                 }
             }
         }
@@ -139,22 +148,36 @@ public class TeacherService implements ITeacher {
 
     public Teacher inforTeacher() {
         System.out.println("Mời bạn nhập vào thông tin giáo viên:");
-        System.out.println("Nhập vào id=");
-        String id = scanner.nextLine();
-        System.out.println("Nhập vào tên giáo viên");
+        String id;
+        while (true) {
+            boolean checkId = false;
+            System.out.print("Mời bạn nhập id=");
+            id = scanner.nextLine();
+            for (Teacher item : teacherList
+            ) {
+                if (item.getId().equalsIgnoreCase(id)) {
+                    System.out.println("Đã có id này rồi");
+                    checkId = true;
+                }
+            }
+            if (!checkId) {
+                break;
+            }
+        }
+        System.out.print("Nhập vào tên giáo viên=");
         String name = scanner.nextLine();
-        System.out.println("Nhập vào ngày sinh của giáo viên:");
+        System.out.print("Nhập vào ngày sinh của giáo viên=");
         String dateOfBirth = scanner.nextLine();
-        System.out.println("Nhập vào giới tính giáo viên:");
+        System.out.print("Nhập vào giới tính giáo viên=");
         String gender = scanner.nextLine();
-        System.out.println("Nhập vào chuyên môn của giáo viên");
+        System.out.print("Nhập vào chuyên môn của giáo viên=");
         String speciality = scanner.nextLine();
         return new Teacher(id, name, dateOfBirth, gender, speciality);
     }
 
     public Teacher findTeacher(String taskName) {
         System.out.println("Mời bạn nhập vào id cần tìm:" + taskName);
-        String id =scanner.nextLine();
+        String id = scanner.nextLine();
         for (Teacher teacher : teacherList
         ) {
             if (teacher.getId().equals(id)) {
@@ -175,7 +198,8 @@ public class TeacherService implements ITeacher {
         for (Teacher teacher : teacherList
         ) {
             if (teacher.getId().equals(id)) {
-                System.out.println(teacher);
+
+                return teacher;
             }
 
         }
@@ -188,7 +212,7 @@ public class TeacherService implements ITeacher {
         for (Teacher teacher : teacherList
         ) {
             if (teacher.getName().contains(name)) {
-                System.out.println(teacher);
+                return teacher;
             }
 
         }
