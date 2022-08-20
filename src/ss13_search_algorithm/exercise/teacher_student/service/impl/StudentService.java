@@ -3,6 +3,7 @@ package ss13_search_algorithm.exercise.teacher_student.service.impl;
 import ss13_search_algorithm.exercise.teacher_student.model.Student;
 import ss13_search_algorithm.exercise.teacher_student.model.Teacher;
 import ss13_search_algorithm.exercise.teacher_student.service.IStudent;
+import ss13_search_algorithm.exercise.teacher_student.service.untils.PointException;
 
 import java.util.*;
 
@@ -131,11 +132,11 @@ public class StudentService implements IStudent {
         for (int i = 0; i < studentList.size() - 1 && isSwap; i++) {
             isSwap = false;
             for (int j = 0; j < studentList.size() - 1 - i; j++) {
-                if (studentList.get(j).getName().compareTo(studentList.get(j+1).getName())>0) {
+                if (studentList.get(j).getName().compareTo(studentList.get(j + 1).getName()) > 0) {
                     isSwap = true;
-                    Student temp = studentList.get(j+1);
-                    studentList.set(j+1,studentList.get(j));
-                    studentList.set(j,temp);
+                    Student temp = studentList.get(j + 1);
+                    studentList.set(j + 1, studentList.get(j));
+                    studentList.set(j, temp);
                 }
             }
         }
@@ -164,12 +165,54 @@ public class StudentService implements IStudent {
         System.out.print("Ngày sinh = ");
         String dateOfBirth = scanner.nextLine();
         System.out.print("Giới tính = ");
-        String gender = scanner.nextLine();
-        System.out.print("Điểm số = ");
-        int score = Integer.parseInt(scanner.nextLine());
-        System.out.print("Tên lớp = ");
-        String className = scanner.nextLine();
+        double score;
+        while (true) {
+            try {
+                System.out.print("Mời bạn nhập điểm: ");
+                score = Double.parseDouble(scanner.nextLine());
+                if (score < 0 || score > 100) {
+                    throw new PointException("Bạn không thể nhập điểm nhỏ hơn 0 hoặc lớn hơn 100");
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Bạn nhập không phải là số. Yêu cầu nhập lại.");
+            } catch (PointException p) {
+                System.err.println(p.getMessage());
+            } catch (Exception e) {
 
+            }
+
+        }
+        String gender;
+        while (true) {
+            try {
+                System.out.print("Mời bạn nhập giới tính: ");
+                gender = scanner.nextLine();
+                if (!gender.equals("nam") && (!gender.equals("nu"))) {
+                    throw new PointException("Dữ liệu bạn nhập không hợp lệ");
+                }
+                break;
+            } catch (PointException e) {
+                System.out.println(e.getMessage());
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        String className;
+        while (true) {
+            try {
+                System.out.print("Mời bạn nhập tên lớp: ");
+                className = scanner.nextLine();
+                if (!className.matches("\\D+\\d+\\d+\\d+\\d+\\D+\\d")) {
+                    throw new PointException("Tên lớp không hợp lệ");
+                }
+                break;
+            } catch (PointException e) {
+                System.out.println(e.getMessage());
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
         return new Student(id, name, dateOfBirth, gender, score, className);
     }
 

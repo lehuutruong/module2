@@ -3,6 +3,7 @@ package ss13_search_algorithm.exercise.teacher_student.service.impl;
 import ss13_search_algorithm.exercise.teacher_student.model.Student;
 import ss13_search_algorithm.exercise.teacher_student.model.Teacher;
 import ss13_search_algorithm.exercise.teacher_student.service.ITeacher;
+import ss13_search_algorithm.exercise.teacher_student.service.untils.PointException;
 
 import java.util.*;
 
@@ -168,8 +169,21 @@ public class TeacherService implements ITeacher {
         String name = scanner.nextLine();
         System.out.print("Nhập vào ngày sinh của giáo viên=");
         String dateOfBirth = scanner.nextLine();
-        System.out.print("Nhập vào giới tính giáo viên=");
-        String gender = scanner.nextLine();
+        String gender;
+        while (true) {
+            try {
+                System.out.print("Mời bạn nhập giới tính: ");
+                gender = scanner.nextLine();
+                if (!gender.equals("nam") && (!gender.equals("nu"))) {
+                    throw new PointException("Dữ liệu bạn nhập không hợp lệ");
+                }
+                break;
+            } catch (PointException e) {
+                System.out.println(e.getMessage());
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
         System.out.print("Nhập vào chuyên môn của giáo viên=");
         String speciality = scanner.nextLine();
         return new Teacher(id, name, dateOfBirth, gender, speciality);
