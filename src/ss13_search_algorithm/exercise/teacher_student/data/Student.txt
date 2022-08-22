@@ -1,0 +1,3 @@
+a1,Lehuutruong,nam,19/07/1997,10,c0622g1
+a2,Lehuuuy,nu,31/12/1997,01,c0622g1
+a3,Lehuuvinh,nu,01/01/2010,10,c0622g1
