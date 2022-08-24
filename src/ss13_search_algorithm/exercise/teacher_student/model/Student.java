@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentMap;
 public class Student  extends Person {
     private double score;
     private String nameClass;
-    public Student(){
+    public Student(String codeProduct, String nameProduct, String companyProduct, double priceProduct){
 
     }
 

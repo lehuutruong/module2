@@ -3,22 +3,22 @@ package ss13_search_algorithm.exercise.teacher_student.service.impl;
 import ss13_search_algorithm.exercise.teacher_student.model.Student;
 import ss13_search_algorithm.exercise.teacher_student.service.IStudent;
 import ss13_search_algorithm.exercise.teacher_student.service.util.PointException;
+import ss13_search_algorithm.exercise.teacher_student.service.util.WriteFileUtil;
+
 import java.util.*;
 
 public class StudentService implements IStudent {
+    public static final String SRC_SS_13_SEARCH_ALGORITHM_EXERCISE_TEACHER_STUDENT_DATA_STUDENT_TXT = "src/ss13_search_algorithm/exercise/teacher_student/data/Student.txt";
+    private static final String path= SRC_SS_13_SEARCH_ALGORITHM_EXERCISE_TEACHER_STUDENT_DATA_STUDENT_TXT;
     public Scanner scanner = new Scanner(System.in);
-    private static final String path = "src/bai_tap_lam_them/bai3_mvc_quan_ly_codegym/data/student.txt";
-    ReadStudentFile readStudentFile = new ReadStudentFile();
-    WriteStudentFile writeStudentFile = new WriteStudentFile();
     private static List<Student> studentList = new ArrayList<>();
-
     @Override
     public void addStudent() {
-        studentList = readStudentFile.readFile(path);
-        studentList.add(getInforStudent());
-        writeStudentFile.writeStudentFile(path, studentList);
+        Student student=this.getInforStudent();
+      List<Student>studentList=new ArrayList<>();
+        studentList.add(student);
         System.out.println("Thêm học sinh mới thành công");
-
+        WriteFileUtil.writelFile(SRC_SS_13_SEARCH_ALGORITHM_EXERCISE_TEACHER_STUDENT_DATA_STUDENT_TXT,true,convertListStudentToListString(studentList));
     }
 
     @Override
@@ -32,7 +32,6 @@ public class StudentService implements IStudent {
 
     @Override
     public void deleteStudent() {
-        studentList = readStudentFile.readStudentFile(path);
         Student student = findStudentByID("xóa");
         if (student == null) {
             System.out.println("ID không tồn tại trong danh sách!");
@@ -45,7 +44,6 @@ public class StudentService implements IStudent {
         if (choose == 1) {
             studentList.remove(student);
             System.out.println("Xóa sinh viên thành công");
-            writeStudentFile.writeStudentFile(path, studentList);
         } else {
             System.out.println("Xóa sinh viên không thành công");
         }
@@ -53,7 +51,6 @@ public class StudentService implements IStudent {
 
     @Override
     public void editStudent() {
-        studentList = readStudentFile.readStudentFile(path);
         Student student = findStudentByID("chỉnh sửa");
         int choose;
         do {
@@ -94,7 +91,6 @@ public class StudentService implements IStudent {
                     return;
             }
             System.out.println("Chỉnh sửa thành công!");
-            writeStudentFile.writeStudentFile(path, studentList);
             System.out.println("Bạn có muốn tiếp tục chỉnh sửa?");
             System.out.println("1- Có ------------- 2- Hoàn tất");
             choose = Integer.parseInt(scanner.nextLine());
@@ -180,8 +176,23 @@ public class StudentService implements IStudent {
         }
         System.out.print("Tên = ");
         String name = scanner.nextLine();
-        System.out.print("Ngày sinh = ");
-        String dateOfBirth = scanner.nextLine();
+        String dateOfBirth;
+        while (true){
+            try {
+                System.out.print("Ngày sinh = ");
+               dateOfBirth = scanner.nextLine();
+                if(!dateOfBirth.matches("\\d{1,2}+[/]+\\d{1,2}+[/]+\\d{4}")){
+                    throw new PointException("Bạn nhập sai định dạng");
+                }
+                break;
+            }catch (PointException e){
+                System.out.println(e.getMessage());
+            }
+            catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+        }
+
         double score;
         while (true) {
             try {
@@ -220,7 +231,7 @@ public class StudentService implements IStudent {
             try {
                 System.out.print("Mời bạn nhập tên lớp: ");
                 className = scanner.nextLine();
-                if (!className.matches("\\D+\\d+\\d+\\d+\\d+\\D+\\d")) {
+                if (!className.matches("\\D+\\d+\\d+\\d+\\D+\\d")) {
                     throw new PointException("Tên lớp không hợp lệ");
                 }
                 break;
@@ -276,5 +287,15 @@ public class StudentService implements IStudent {
         }
         return null;
     }
+private String convertStudentToString(Student student){
+        return student.getId()+","+student.getName()+","+student.getGender()+","+student.getDateOfBirth()+","+student.getScore()+","+student.getNameClass();
+}
+private List<String>convertListStudentToListString(List<Student>students){
+        List<String> strings=new ArrayList<>();
+    for (Student student:students
+         ) { strings.add(convertStudentToString(student));
 
+    }
+    return strings;
+}
 }

@@ -151,7 +151,7 @@ public class TeacherService implements ITeacher {
         String id;
         while (true) {
             boolean checkId = false;
-            boolean chechId2=false;
+            boolean chechId2 = false;
             System.out.print("Mời bạn nhập id=");
             id = scanner.nextLine();
             for (Teacher item : teacherList
@@ -161,23 +161,36 @@ public class TeacherService implements ITeacher {
                     checkId = true;
                 }
             }
-            try{
-                if(id.equals("")){
-                    chechId2=true;
+            try {
+                if (id.equals("")) {
+                    chechId2 = true;
                     throw new PointException("BẠn không thể để  trông id");
                 }
-            }
-            catch (PointException e){
+            } catch (PointException e) {
                 System.out.println(e.getMessage());
             }
-            if (!checkId&&!chechId2) {
+            if (!checkId && !chechId2) {
                 break;
             }
         }
         System.out.print("Nhập vào tên giáo viên=");
         String name = scanner.nextLine();
-        System.out.print("Nhập vào ngày sinh của giáo viên=");
-        String dateOfBirth = scanner.nextLine();
+
+        String dateOfBirth;
+        while (true) {
+            System.out.print("Nhập vào ngày sinh của giáo viên=");
+            dateOfBirth = scanner.nextLine();
+            try {
+                if (!dateOfBirth.matches("\\d{1,2}+[/]+\\d{1,2}+[/]+\\d{4}")) {
+                    throw new PointException("Bạn nhập sai định dạng");
+                }
+                break;
+            } catch (PointException e) {
+                System.out.println(e.getMessage());
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
         String gender;
         while (true) {
             try {

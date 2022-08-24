@@ -1,17 +1,23 @@
 package ss13_search_algorithm.exercise.teacher_student.service.util;
 
-import ss13_search_algorithm.exercise.teacher_student.model.Student;
-
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 public class WriteFileUtil {
-    public void writeStudentFile(String path, List<Student> studentList) throws IOException {
-        String data = "id,name,dateOfBirth,gender,score,className\n";
+    public static void writelFile(String src, boolean append, List<String>list){
+        FileWriter fileWriter;
+        try{
+            fileWriter=new FileWriter(src,append);
+            BufferedWriter bufferedWriter=new BufferedWriter(fileWriter);
+            for (int i = 0; i <list.size() ; i++) {
+                bufferedWriter.write(list.get(i));
+                bufferedWriter.newLine();
 
-        for (Student student : studentList) {
-            data += student.toString() + "\n";
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        WriteFileUtil.writeFile(path, data);
     }
 }
