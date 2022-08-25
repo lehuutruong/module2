@@ -178,7 +178,7 @@ public class TeacherService implements ITeacher {
             try {
                 System.out.print("Tên = ");
                 name = scanner.nextLine();
-                if(!name.matches("[a-z A-Z]{5,50}")){
+                if(!name.matches("[\\W\\D]{5,50}")){
                     throw new PointException("Bạn nhập sai định dạng");
                 }
                 break;
