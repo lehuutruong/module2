@@ -27,9 +27,7 @@ public class Teacher  extends Person {
 
     @Override
     public String toString() {
-        return "Teacher{" +super.toString()+
-                "speciality='" + speciality + '\'' +
-                '}';
+        return String.format("%s,%s,%s,%s,%s",getId(),getName(),getGender(),getDateOfBirth(),getSpeciality());
     }
 
 }

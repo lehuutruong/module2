@@ -3,23 +3,20 @@ package ss13_search_algorithm.exercise.teacher_student.service.impl;
 import ss13_search_algorithm.exercise.teacher_student.model.Teacher;
 import ss13_search_algorithm.exercise.teacher_student.service.ITeacher;
 import ss13_search_algorithm.exercise.teacher_student.service.util.PointException;
+import ss13_search_algorithm.exercise.teacher_student.service.util.ReadTeacherFile;
+import ss13_search_algorithm.exercise.teacher_student.service.util.WriteTeacherFile;
 
+import java.io.IOException;
 import java.util.*;
 
 public class TeacherService implements ITeacher {
     public Scanner scanner = new Scanner(System.in);
-    private static List<Teacher> teacherList = new ArrayList<>();
+    private static  final String PATH="module2\\src\\ss13_search_algorithm\\exercise\\teacher_student\\data\\Teacher.csv";
+    ReadTeacherFile readTeacherFile=new ReadTeacherFile();
+    WriteTeacherFile writeTeacherFile=new WriteTeacherFile();
+    private static List<Teacher> teacherList;
 
-    static {
-        Teacher teacher = new Teacher("14j", "truong", "112", "1212", "1212");
-        Teacher teacher1 = new Teacher("18", "nam", "112", "1212", "1212");
-        Teacher teacher2 = new Teacher("9", "uy", "112", "1212", "1212");
-        teacherList.add(teacher);
-        teacherList.add(teacher1);
-        teacherList.add(teacher2);
-    }
-
-    @Override
+        @Override
     public void deleteTeacher() {
         Teacher teacher = findTeacher("Xóa");
         if (teacher == null) {
@@ -86,13 +83,16 @@ public class TeacherService implements ITeacher {
     }
 
     @Override
-    public void addTeacher() {
+    public void addTeacher() throws IOException {
+        teacherList=readTeacherFile.readTeacherFile(PATH);
         teacherList.add(this.inforTeacher());
+        writeTeacherFile.writeTeacherFile(PATH,teacherList);
         System.out.println("Đã thêm thành công giáo viên");
     }
 
     @Override
-    public void displayTeacher() {
+    public void displayTeacher() throws IOException {
+        teacherList=readTeacherFile.readTeacherFile(PATH);
         for (Teacher item : teacherList
         ) {
             System.out.println(item.toString());
@@ -173,9 +173,22 @@ public class TeacherService implements ITeacher {
                 break;
             }
         }
-        System.out.print("Nhập vào tên giáo viên=");
-        String name = scanner.nextLine();
-
+        String name;
+        while (true){
+            try {
+                System.out.print("Tên = ");
+                name = scanner.nextLine();
+                if(!name.matches("[a-z A-Z]{5,50}")){
+                    throw new PointException("Bạn nhập sai định dạng");
+                }
+                break;
+            }catch (PointException e){
+                System.out.println(e.getMessage());
+            }
+            catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+        }
         String dateOfBirth;
         while (true) {
             System.out.print("Nhập vào ngày sinh của giáo viên=");

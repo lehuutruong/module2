@@ -38,10 +38,7 @@ public class Student  extends Person {
 
     @Override
     public String toString() {
-        return "Student{" +super.toString()+
-                "score=" + score +
-                ", nameClass='" + nameClass + '\'' +
-                '}';
+        return String.format("%s,%s,%s,%s,%s,%s",getId(),getName(),getGender(),getDateOfBirth(),getScore(),getNameClass());
     }
 
 }

@@ -2,12 +2,13 @@ package ss13_search_algorithm.exercise.teacher_student.controller;
 import ss13_search_algorithm.exercise.teacher_student.service.ITeacher;
 import ss13_search_algorithm.exercise.teacher_student.service.impl.TeacherService;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class TeacherController {
     public static Scanner scanner = new Scanner(System.in);
     public static ITeacher iTeacherService =  new TeacherService();
-    public static void teacherManage() {
+    public static void teacherManage() throws IOException {
         while (true) {
             System.out.println("---------------------------------");
             System.out.println("Chào mừng bạn đến với CodeGym - Teacher:");

@@ -3,13 +3,14 @@ package ss13_search_algorithm.exercise.teacher_student.controller;
 import ss13_search_algorithm.exercise.teacher_student.service.IStudent;
 import ss13_search_algorithm.exercise.teacher_student.service.impl.StudentService;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class StudentController {
     private Scanner scanner = new Scanner(System.in);
     private IStudent studentService = (IStudent) new StudentService();
     private static int choice;
-    public void studentManage() {
+    public void studentManage() throws IOException {
         while (true) {
             System.out.println("---------------------------------------------");
             System.out.println("Chào mừng bạn đến với CodeGym - Student");

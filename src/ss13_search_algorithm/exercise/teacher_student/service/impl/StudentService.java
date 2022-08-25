@@ -3,27 +3,31 @@ package ss13_search_algorithm.exercise.teacher_student.service.impl;
 import ss13_search_algorithm.exercise.teacher_student.model.Student;
 import ss13_search_algorithm.exercise.teacher_student.service.IStudent;
 import ss13_search_algorithm.exercise.teacher_student.service.util.PointException;
-import ss13_search_algorithm.exercise.teacher_student.service.util.WriteFileUtil;
+import ss13_search_algorithm.exercise.teacher_student.service.util.ReadStudentFile;
+import ss13_search_algorithm.exercise.teacher_student.service.util.WriteStudentFile;
 
+import java.io.IOException;
 import java.util.*;
 
 public class StudentService implements IStudent {
-    public static final String SRC_SS_13_SEARCH_ALGORITHM_EXERCISE_TEACHER_STUDENT_DATA_STUDENT_TXT = "src/ss13_search_algorithm/exercise/teacher_student/data/Student.txt";
-    private static final String path= SRC_SS_13_SEARCH_ALGORITHM_EXERCISE_TEACHER_STUDENT_DATA_STUDENT_TXT;
     public Scanner scanner = new Scanner(System.in);
-    private static List<Student> studentList = new ArrayList<>();
+    private static final String PATH="module2\\src\\ss13_search_algorithm\\exercise\\teacher_student\\data\\Student.csv";
+    ReadStudentFile readStudentFile=new ReadStudentFile();
+    WriteStudentFile writeStudentFile=new WriteStudentFile();
+    private static List<Student> studentList;
     @Override
-    public void addStudent() {
+    public void addStudent() throws IOException {
+        studentList=readStudentFile.readStudentFile(PATH);
         Student student=this.getInforStudent();
-      List<Student>studentList=new ArrayList<>();
         studentList.add(student);
+        writeStudentFile.writeStudentFile(PATH,studentList);
         System.out.println("Thêm học sinh mới thành công");
-        WriteFileUtil.writelFile(SRC_SS_13_SEARCH_ALGORITHM_EXERCISE_TEACHER_STUDENT_DATA_STUDENT_TXT,true,convertListStudentToListString(studentList));
     }
 
     @Override
-    public void displayStudent() {
+    public void displayStudent() throws IOException {
         System.out.println("-------Danh sách sinh viên-----------");
+        studentList=readStudentFile.readStudentFile(PATH);
         for (Student student : studentList
         ) {
             System.out.println(student.toString());
@@ -174,8 +178,23 @@ public class StudentService implements IStudent {
                 break;
             }
         }
-        System.out.print("Tên = ");
-        String name = scanner.nextLine();
+
+        String name;
+        while (true){
+            try {
+                System.out.print("Tên = ");
+                name = scanner.nextLine();
+                if(!name.matches("[a-z A-Z]{5,50}")){
+                    throw new PointException("Bạn nhập sai định dạng");
+                }
+                break;
+            }catch (PointException e){
+                System.out.println(e.getMessage());
+            }
+            catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+        }
         String dateOfBirth;
         while (true){
             try {
@@ -231,7 +250,7 @@ public class StudentService implements IStudent {
             try {
                 System.out.print("Mời bạn nhập tên lớp: ");
                 className = scanner.nextLine();
-                if (!className.matches("\\D+\\d+\\d+\\d+\\D+\\d")) {
+                if (!className.matches("[AC]\\d{4}[GI][1]")) {
                     throw new PointException("Tên lớp không hợp lệ");
                 }
                 break;
@@ -287,15 +306,5 @@ public class StudentService implements IStudent {
         }
         return null;
     }
-private String convertStudentToString(Student student){
-        return student.getId()+","+student.getName()+","+student.getGender()+","+student.getDateOfBirth()+","+student.getScore()+","+student.getNameClass();
 }
-private List<String>convertListStudentToListString(List<Student>students){
-        List<String> strings=new ArrayList<>();
-    for (Student student:students
-         ) { strings.add(convertStudentToString(student));
 
-    }
-    return strings;
-}
-}

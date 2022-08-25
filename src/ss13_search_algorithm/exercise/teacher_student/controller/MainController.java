@@ -1,4 +1,5 @@
 package ss13_search_algorithm.exercise.teacher_student.controller;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class MainController {
@@ -7,7 +8,7 @@ public class MainController {
     private TeacherController teacherController = new TeacherController();
     public static boolean continueRunning;
 
-    public void menuManagement() {
+    public void menuManagement() throws IOException {
         continueRunning = true;
         while (continueRunning) {
             System.out.println("-------------------------");
