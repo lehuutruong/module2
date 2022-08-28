@@ -1,28 +1,26 @@
 package case_study.model.person;
 
-import case_study.model.person.Person;
-
 public class Employee extends Person {
     private String codeEmployee;
     private String level;
-    private String location;
+    private String locationEmployee;
     private String wage;
 
     public Employee() {
     }
 
-    public Employee(String codeEmployee, String level, String location, String wage) {
+    public Employee(String codeEmployee, String level, String locationEmployee, String wage) {
         this.codeEmployee = codeEmployee;
         this.level = level;
-        this.location = location;
+        this.locationEmployee = locationEmployee;
         this.wage = wage;
     }
 
-    public Employee(String name, String dateOfBirth, String gender, String identityCard, String numberPhone, String email, String codeEmployee, String level, String location, String wage) {
+    public Employee(String name, String dateOfBirth, String gender, String identityCard, String numberPhone, String email, String codeEmployee, String level, String locationEmployee, String wage) {
         super(name, dateOfBirth, gender, identityCard, numberPhone, email);
         this.codeEmployee = codeEmployee;
         this.level = level;
-        this.location = location;
+        this.locationEmployee = locationEmployee;
         this.wage = wage;
     }
 
@@ -42,12 +40,12 @@ public class Employee extends Person {
         this.level = level;
     }
 
-    public String getLocation() {
-        return location;
+    public String getLocationEmployee() {
+        return locationEmployee;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLocationEmployee(String locationEmployee) {
+        this.locationEmployee = locationEmployee;
     }
 
     public String getWage() {
@@ -60,11 +58,6 @@ public class Employee extends Person {
 
     @Override
     public String toString() {
-        return "Employee{" +super.toString()+
-                "codeEmployee='" + codeEmployee + '\'' +
-                ", level='" + level + '\'' +
-                ", location='" + location + '\'' +
-                ", wage='" + wage + '\'' +
-                '}';
+        return String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,",getName(),getDateOfBirth(),getGender(),getIdentityCard(),getNumberPhone(),getEmail(),getCodeEmployee(),getLevel(),getLocationEmployee(),getWage());
     }
 }

@@ -1,5 +1,6 @@
 package case_study.controller;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class FuramaController {
