@@ -1,4 +1,4 @@
-package case_study.sercive.util.read_write;
+package case_study.sercive.util.read_write.employee;
 
 import case_study.model.person.Employee;
 import util.read_write.ReadFileUtil;

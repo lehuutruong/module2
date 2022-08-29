@@ -1,0 +1,6 @@
+name,dateOfBirth,gender,identityCard,numberPhone,email,codeCustomer,typeCustomer,addressCustomer
+mule,19/07/1997,Male,184249992,(84)-(981991360),lehuutruong@gmail.com,aa11,Intermediate,Receptionist
+mule,19/07/1997,Male,184249992,(84)-(981991360),lehuutruong@gmail.com,aa11,Intermediate,Receptionist
+12,19/01/1999,Male,184249992,(84)-(0981991360),truong@gmail.com,truong,Intermediate,Service
+af,19/04/1999,Male,184249992,(84)-(0981991360),truong@gmail.com,truong12,Intermediate,Service
+truong,19/07/1999,Male,184249992,(84)-(0981991360),truong@gmail.com,truongre, Diamond,truong
