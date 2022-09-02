@@ -7,7 +7,7 @@ import util.read_write.WriteFileUtil;
 import java.util.List;
 
 public class WriteFileVilla {
-    public void writeFileVilla(String path, List<Villa> villas)  {
+    public static void writeFileVilla(String path, List<Villa> villas)  {
         String data="codeService,nameService,areaUsable,costsRental,numberPeopleMax,typeRental,roomStandard,areaPool,numberOfFloors\n";
         for (Villa villa:villas
         ) {data+=villa.toString()+"\n";

@@ -7,5 +7,6 @@ public class MainView {
         FuramaController furamaController = new FuramaController();
         furamaController.furama();
     }
+
 }
 

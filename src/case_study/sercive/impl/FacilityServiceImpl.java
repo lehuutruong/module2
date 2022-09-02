@@ -1,66 +1,61 @@
 package case_study.sercive.impl;
 
+import case_study.model.facility.Facility;
 import case_study.model.facility.House;
 import case_study.model.facility.Room;
 import case_study.model.facility.Villa;
 import case_study.sercive.IFacilityService;
-import case_study.sercive.util.exeption.customer_exception.CodeCustomerException;
-import case_study.sercive.util.exeption.employee_exception.DateOfBirthException;
-import case_study.sercive.util.exeption.employee_exception.NameException;
+import case_study.sercive.util.read_write.facility.ReadFileFacility;
+import case_study.sercive.util.read_write.facility.WriteFileFacility;
 import case_study.sercive.util.read_write.house.ReadFileHouse;
 import case_study.sercive.util.read_write.house.WriteFileHouse;
 import case_study.sercive.util.read_write.room.ReadFileRoom;
 import case_study.sercive.util.read_write.room.WriteFileRoom;
 import case_study.sercive.util.read_write.villa.ReadFileVilla;
 import case_study.sercive.util.read_write.villa.WriteFileVilla;
+import case_study.sercive.util.validate.facility_validate.facility.*;
+import case_study.sercive.util.validate.facility_validate.house.CodeHouseServiceValidate;
+import case_study.sercive.util.validate.facility_validate.room.CodeRoomServiceValidate;
+import case_study.sercive.util.validate.facility_validate.room.FreeServiceValidate;
+import case_study.sercive.util.validate.facility_validate.villa.AreaPoolValidate;
+import case_study.sercive.util.validate.facility_validate.villa.CodeVillaServiceValidate;
+import case_study.sercive.util.validate.facility_validate.villa.NumberOfFloorsValidate;
+import case_study.sercive.util.validate.facility_validate.villa.RoomStandardValidate;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class FacilityServiceImpl implements IFacilityService {
     private static Scanner scanner = new Scanner(System.in);
     private List<Villa> villas = new ArrayList<>();
-    ReadFileVilla readFileVilla = new ReadFileVilla();
-    WriteFileVilla writeFileVilla = new WriteFileVilla();
+    //    ReadFileVilla readFileVilla = new ReadFileVilla();
+//    WriteFileVilla writeFileVilla = new WriteFileVilla();
     final String PATH_VILLA = "module2\\src\\case_study\\data\\Villa.csv";
-    private List<House>houses=new ArrayList<>();
-    ReadFileHouse readFileHouse=new ReadFileHouse();
-    WriteFileHouse writeFileHouse=new WriteFileHouse();
-    final String PATH_HOUSE="module2\\src\\case_study\\data\\House.csv";
-    private List<Room>rooms=new ArrayList<>();
-    ReadFileRoom readFileRoom=new ReadFileRoom();
-    WriteFileRoom writeFileRoom=new WriteFileRoom();
-    final String PATH_ROOM="module2\\src\\case_study\\data\\Room.csv";
+    private List<House> houses = new ArrayList<>();
+    //    ReadFileHouse readFileHouse = new ReadFileHouse();
+//    WriteFileHouse writeFileHouse = new WriteFileHouse();
+    final String PATH_HOUSE = "module2\\src\\case_study\\data\\House.csv";
+    private List<Room> rooms = new ArrayList<>();
+    //    ReadFileRoom readFileRoom = new ReadFileRoom();
+//    WriteFileRoom writeFileRoom = new WriteFileRoom();
+    final String PATH_ROOM = "module2\\src\\case_study\\data\\Room.csv";
+    final String PATH_FACILITY="module2\\src\\case_study\\data\\Facilyti.csv";
+    public static Map<Facility, Integer> facilities = new LinkedHashMap<>();
+    private static final Map<Facility, Integer> facilityMaintenance = new LinkedHashMap<>();
     static int choice;
 
     @Override
     public void displayListFacility() {
-        System.out.println("Facility wants to display");
-        System.out.println("1. Display New Villa");
-        System.out.println("2. Display New House");
-        System.out.println("3. Display New Room");
-        System.out.println("4. Back to menu");
-        choice = Integer.parseInt(scanner.nextLine());
-        switch (choice) {
-            case 1:
-                displayVilla();
-                break;
-            case 2:
-                displayHouse();
-                break;
-            case 3:
-                displayRoom();
-                break;
-            case 4:
-                return;
-            default:
-                System.out.println("Only select from one to four");
+        facilities = ReadFileFacility.readFacilityFile(PATH_FACILITY);
+        Set<Facility> facilitySet = facilities.keySet();
+        for (Facility facility : facilitySet) {
+            System.out.println(facility.toString() + "," + facilities.get(facility));
         }
+        WriteFileFacility.writeFacilityFile(PATH_FACILITY,facilities);
     }
 
     @Override
     public void addNewFacility() {
+        facilities = ReadFileFacility.readFacilityFile(PATH_FACILITY);
         System.out.println("Facility wants to add");
         System.out.println("1. Add New Villa");
         System.out.println("2. Add New House");
@@ -82,463 +77,86 @@ public class FacilityServiceImpl implements IFacilityService {
             default:
                 System.out.println("Only select from one to four");
         }
+        WriteFileFacility.writeFacilityFile(PATH_FACILITY,facilities);
     }
 
     @Override
     public void displayListFacilityMaintenance() {
-
+        facilities = ReadFileFacility.readFacilityFile(PATH_FACILITY);
+             for (Facility facility : facilities.keySet()) {
+            if (facilities.get(facility) >= 5) {
+                facilityMaintenance.put(facility, facilities.get(facility));
+            }
+        }
+        for (Facility facility : facilityMaintenance.keySet()) {
+            System.out.println(facility + "has been used: " + facilityMaintenance.get(facility) + "times");
+        }
+        WriteFileFacility.writeFacilityFile(PATH_FACILITY,facilities);
     }
 
     public void addNewVilla() {
-               villas = readFileVilla.readFileVilla(PATH_VILLA);
+        List<Villa> villas = ReadFileVilla.readFileVilla(PATH_VILLA);
         Villa villa = this.getInfoVilla();
         villas.add(villa);
-        writeFileVilla.writeFileVilla(PATH_VILLA,villas);
+        facilities.put(villa, 0);
+        WriteFileVilla.writeFileVilla(PATH_VILLA, villas);
         System.out.println("Added New Villa");
     }
-    public void addNewHouse(){
-        houses=readFileHouse.readFileHouse(PATH_HOUSE);
-     House house=this.getInfoHouse();
-     houses.add(house);
-     writeFileHouse.writeFileHouse(PATH_HOUSE,houses);
+
+    public void addNewHouse() {
+        List<House> houses = ReadFileHouse.readFileHouse(PATH_HOUSE);
+        House house = this.getInfoHouse();
+        houses.add(house);
+        facilities.put(house, 0);
+        WriteFileHouse.writeFileHouse(PATH_HOUSE, houses);
         System.out.println("Added new House");
     }
-    public void addNewRoom(){
-        rooms=readFileRoom.readFileRoom(PATH_ROOM);
-        Room room=this.getInfoRoom();
+
+    public void addNewRoom() {
+        List<Room> rooms = ReadFileRoom.readFileRoom(PATH_ROOM);
+        Room room = this.getInfoRoom();
         rooms.add(room);
-        writeFileRoom.writeFileRoom(PATH_ROOM,rooms);
+        facilities.put(room, 0);
+        WriteFileRoom.writeFileRoom(PATH_ROOM, rooms);
         System.out.println("Added New Room");
 
     }
-     public void displayHouse(){
-              houses=readFileHouse.readFileHouse(PATH_HOUSE);
-         System.out.println("Display List House");
-         for (House house:houses
-              ) {
-             System.out.println(house.toString());
 
-         }
-     }
-    public void displayRoom(){
-              rooms=readFileRoom.readFileRoom(PATH_ROOM);
-        System.out.println("Display List Room");
-        for (Room room:rooms
-        ) {
-            System.out.println(room.toString());
-
-        }
-    }
-    public void displayVilla(){
-        villas=readFileVilla.readFileVilla(PATH_VILLA);
-        System.out.println("Display List Villa");
-        for (Villa villa:villas
-        ) {
-            System.out.println(villa.toString());
-
-        }
-    }
     public Villa getInfoVilla() {
         System.out.println("Enter info Villa");
-        String codeService;
-        while (true) {
-            try {
-                System.out.println("Enter code service");
-                codeService = scanner.nextLine();
-                if (codeService.equals("")) {
-                    throw new CodeCustomerException("CodeService cannot be blank");
-                }
-                if (codeService.equals(villas)) {
-                    throw new CodeCustomerException(" CodeService appeared");
-                }
-                if(!codeService.matches("[S]+[V]+[V]+[L]+[-]+[0-9]{4}"))
-                    throw new CodeCustomerException("Code Service is not correct format");
-                break;
-            } catch (CodeCustomerException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        String nameService;
-        while (true) {
-
-            try {
-                System.out.println("Enter name service");
-                nameService = scanner.nextLine();
-                if (!nameService.matches("[A-Z]+[a-z]{5,50}")) {
-                    throw new NameException("Your name from 5 to 50 characters");
-                }
-                break;
-            } catch (NameException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        double areaUsable;
-        while (true) {
-            try {
-                System.out.println("Enter Area Usable");
-                areaUsable = Double.parseDouble(scanner.nextLine());
-                if (areaUsable < 30 || areaUsable > 1000000000) {
-                    throw new DateOfBirthException("The Area usable is not correct ");
-                }
-                break;
-            } catch (DateOfBirthException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        double costsRental;
-        while (true) {
-            try {
-                System.out.println("Enter Cost Rental");
-                costsRental = Double.parseDouble(scanner.nextLine());
-                if (costsRental < 0) {
-                    throw new DateOfBirthException("The Cost Rentla is not correct ");
-                }
-                break;
-            } catch (DateOfBirthException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        int numberPeopleMax;
-        while (true) {
-            try {
-                System.out.println("Enter Number People Maximum");
-                numberPeopleMax = Integer.parseInt(scanner.nextLine());
-                if (numberPeopleMax < 0||numberPeopleMax>20) {
-                    throw new DateOfBirthException("The Number People maximum is not correct ");
-                }
-                break;
-            } catch (DateOfBirthException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        String typeRental = "";
-        while (true) {
-            boolean checkRental = false;
-            System.out.println("Choice type of rental ");
-            System.out.println("1. Year");
-            System.out.println("2. Month");
-            System.out.println("3. Day");
-            System.out.println("4. Hour");
-            choice = Integer.parseInt(scanner.nextLine());
-            switch (choice) {
-                case 1:
-                    typeRental = " Year";
-                    checkRental = true;
-                    break;
-                case 2:
-                    typeRental = "Month";
-                    checkRental = true;
-                    break;
-                case 3:
-                    typeRental = "Day";
-                    checkRental = true;
-                    break;
-                case 4:
-                    typeRental = "Hour";
-                    checkRental = true;
-                    break;
-                default:
-                    System.out.println(" Only select one to four");
-            }
-            if (checkRental) {
-                break;
-            }
-        }
-        String roomStandard;
-        while (true) {
-
-            try {
-                System.out.println("Enter Room Standard");
-                roomStandard = scanner.nextLine();
-                if (!roomStandard.matches("\\D{5,50}")) {
-                    throw new NameException("Your Room Standard from 5 to 50 characters");
-                }
-                break;
-            } catch (NameException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        double areaPool;
-        while (true) {
-            try {
-                System.out.println("Enter Area Pool");
-                areaPool = Double.parseDouble(scanner.nextLine());
-                if (areaPool < 30 || areaPool > 1000000000) {
-                    throw new DateOfBirthException("The Area Pool is not correct ");
-                }
-                break;
-            } catch (DateOfBirthException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        int numberOfFloors;
-        while (true) {
-            try {
-                System.out.println("Enter Number Of Floors");
-                numberOfFloors = Integer.parseInt(scanner.nextLine());
-                if (numberOfFloors < 0 || numberOfFloors > 200) {
-                    throw new DateOfBirthException("The Number Of Floors is not correct ");
-                }
-                break;
-            } catch (DateOfBirthException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        return new Villa(codeService, nameService, areaUsable, costsRental, numberPeopleMax, typeRental, roomStandard, areaPool, numberOfFloors);
+        String codeVillaService = CodeVillaServiceValidate.codeVillaServiceValidate();
+        String nameService = NameServiceValidate.nameServiceValidate();
+        double areaUsable = AreaUsableValidate.areaUsableValidate();
+        double costsRental = CostsRentalValidate.costsRentalValidate();
+        int numberPeopleMax = NumberPeopleMaxValidate.numberPeopleMaxValidate();
+        String typeRental = TypeRentalValidate.typeRentalValidate();
+        String roomStandard = RoomStandardValidate.roomStandardValidate();
+        double areaPool = AreaPoolValidate.areaPoolValidate();
+        int numberOfFloors = NumberOfFloorsValidate.numberOfFloorsValidate();
+        return new Villa(codeVillaService, nameService, areaUsable, costsRental, numberPeopleMax, typeRental, roomStandard, areaPool, numberOfFloors);
     }
+
     public House getInfoHouse() {
         System.out.println("Enter info House");
-        String codeService;
-        while (true) {
-            try {
-                System.out.println("Enter code service");
-                codeService = scanner.nextLine();
-                if (codeService.equals("")) {
-                    throw new CodeCustomerException("CodeService cannot be blank");
-                }
-                if (codeService.equals(houses)) {
-                    throw new CodeCustomerException(" CodeService appeared");
-                }
-                if(!codeService.matches("[S]+[V]+[H]+[O]+[-]+[0-9]{4}"))
-                    throw new CodeCustomerException("Code Service is not correct format");
-                break;
-            } catch (CodeCustomerException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        String nameService;
-        while (true) {
-
-            try {
-                System.out.println("Enter name service");
-                nameService = scanner.nextLine();
-                if (!nameService.matches("[A-Z]+[a-z]{5,50}")) {
-                    throw new NameException("Your name from 5 to 50 characters");
-                }
-                break;
-            } catch (NameException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        double areaUsable;
-        while (true) {
-            try {
-                System.out.println("Enter Area Usable");
-                areaUsable = Double.parseDouble(scanner.nextLine());
-                if (areaUsable < 30 || areaUsable > 1000000000) {
-                    throw new DateOfBirthException("The Area usable is not correct ");
-                }
-                break;
-            } catch (DateOfBirthException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        double costsRental;
-        while (true) {
-            try {
-                System.out.println("Enter Cost Rental");
-                costsRental = Double.parseDouble(scanner.nextLine());
-                if (costsRental < 0) {
-                    throw new DateOfBirthException("The Cost Rentla is not correct ");
-                }
-                break;
-            } catch (DateOfBirthException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        int numberPeopleMax;
-        while (true) {
-            try {
-                System.out.println("Enter Number People Maximum");
-                numberPeopleMax = Integer.parseInt(scanner.nextLine());
-                if (numberPeopleMax < 0||numberPeopleMax>20) {
-                    throw new DateOfBirthException("The Number People maximum is not correct ");
-                }
-                break;
-            } catch (DateOfBirthException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        String typeRental = "";
-        while (true) {
-            boolean checkRental = false;
-            System.out.println("Choice type of rental ");
-            System.out.println("1. Year");
-            System.out.println("2. Month");
-            System.out.println("3. Day");
-            System.out.println("4. Hour");
-            choice = Integer.parseInt(scanner.nextLine());
-            switch (choice) {
-                case 1:
-                    typeRental = " Year";
-                    checkRental = true;
-                    break;
-                case 2:
-                    typeRental = "Month";
-                    checkRental = true;
-                    break;
-                case 3:
-                    typeRental = "Day";
-                    checkRental = true;
-                    break;
-                case 4:
-                    typeRental = "Hour";
-                    checkRental = true;
-                    break;
-                default:
-                    System.out.println(" Only select one to four");
-            }
-            if (checkRental) {
-                break;
-            }
-        }
-        String roomStandard;
-        while (true) {
-
-            try {
-                System.out.println("Enter Room Standard");
-                roomStandard = scanner.nextLine();
-                if (!roomStandard.matches("\\D{5,50}")) {
-                    throw new NameException("Your Room Standard from 5 to 50 characters");
-                }
-                break;
-            } catch (NameException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        int numberOfFloors;
-        while (true) {
-            try {
-                System.out.println("Enter Number Of Floors");
-                numberOfFloors = Integer.parseInt(scanner.nextLine());
-                if (numberOfFloors < 0 || numberOfFloors > 200) {
-                    throw new DateOfBirthException("The Number Of Floors is not correct ");
-                }
-                break;
-            } catch (DateOfBirthException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        return new House(codeService, nameService, areaUsable, costsRental, numberPeopleMax, typeRental, roomStandard,  numberOfFloors);
+        String codeHouseService = CodeHouseServiceValidate.codeHouseServiceValidate();
+        String nameService = NameServiceValidate.nameServiceValidate();
+        double areaUsable = AreaUsableValidate.areaUsableValidate();
+        double costsRental = CostsRentalValidate.costsRentalValidate();
+        int numberPeopleMax = NumberPeopleMaxValidate.numberPeopleMaxValidate();
+        String typeRental = TypeRentalValidate.typeRentalValidate();
+        String roomStandard = RoomStandardValidate.roomStandardValidate();
+        int numberOfFloors = NumberOfFloorsValidate.numberOfFloorsValidate();
+        return new House(codeHouseService, nameService, areaUsable, costsRental, numberPeopleMax, typeRental, roomStandard, numberOfFloors);
     }
     public Room getInfoRoom() {
         System.out.println("Enter info Room");
-        String codeService;
-        while (true) {
-            try {
-                System.out.println("Enter code service");
-                codeService = scanner.nextLine();
-                if (codeService.equals("")) {
-                    throw new CodeCustomerException("CodeService cannot be blank");
-                }
-                if (codeService.equals(rooms)) {
-                    throw new CodeCustomerException(" CodeService appeared");
-                }if(!codeService.matches("[S]+[V]+[R]+[O]+[-]+[0-9]{4}"))
-                    throw new CodeCustomerException("Code Service is not correct format");
-                break;
-            } catch (CodeCustomerException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        String nameService;
-        while (true) {
-
-            try {
-                System.out.println("Enter name service");
-                nameService = scanner.nextLine();
-                if (!nameService.matches("[A-Z]+[a-z]{5,50}")) {
-                    throw new NameException("Your name from 5 to 50 characters");
-                }
-                break;
-            } catch (NameException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        double areaUsable;
-        while (true) {
-            try {
-                System.out.println("Enter Area Usable");
-                areaUsable = Double.parseDouble(scanner.nextLine());
-                if (areaUsable < 0 || areaUsable > 1000000000) {
-                    throw new DateOfBirthException("The Area usable is not correct ");
-                }
-                break;
-            } catch (DateOfBirthException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        double costsRental;
-        while (true) {
-            try {
-                System.out.println("Enter Cost Rental");
-                costsRental = Double.parseDouble(scanner.nextLine());
-                if (costsRental < 0) {
-                    throw new DateOfBirthException("The Cost Rentla is not correct ");
-                }
-                break;
-            } catch (DateOfBirthException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        int numberPeopleMax;
-        while (true) {
-            try {
-                System.out.println("Enter Number People Maximum");
-                numberPeopleMax = Integer.parseInt(scanner.nextLine());
-                if (numberPeopleMax < 0||numberPeopleMax>20) {
-                    throw new DateOfBirthException("The Number People maximum is not correct ");
-                }
-                break;
-            } catch (DateOfBirthException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        String typeRental = "";
-        while (true) {
-            boolean checkRental = false;
-            System.out.println("Choice type of rental ");
-            System.out.println("1. Year");
-            System.out.println("2. Month");
-            System.out.println("3. Day");
-            System.out.println("4. Hour");
-            choice = Integer.parseInt(scanner.nextLine());
-            switch (choice) {
-                case 1:
-                    typeRental = " Year";
-                    checkRental = true;
-                    break;
-                case 2:
-                    typeRental = "Month";
-                    checkRental = true;
-                    break;
-                case 3:
-                    typeRental = "Day";
-                    checkRental = true;
-                    break;
-                case 4:
-                    typeRental = "Hour";
-                    checkRental = true;
-                    break;
-                default:
-                    System.out.println(" Only select one to four");
-            }
-            if (checkRental) {
-                break;
-            }
-        }
-        String freeService;
-        while (true) {
-            try {
-                System.out.println("Enter free service");
-                freeService = scanner.nextLine();
-                if (!freeService.matches("\\D{5,50}")) {
-                    throw new NameException("Your name from 5 to 50 characters");
-                }
-                break;
-            } catch (NameException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        return new Room(codeService, nameService, areaUsable, costsRental, numberPeopleMax, typeRental, freeService);
+        String codeRoomService = CodeRoomServiceValidate.codeRoomServiceValidate();
+        String nameService = NameServiceValidate.nameServiceValidate();
+        double areaUsable = AreaUsableValidate.areaUsableValidate();
+        double costsRental = CostsRentalValidate.costsRentalValidate();
+        int numberPeopleMax = NumberPeopleMaxValidate.numberPeopleMaxValidate();
+        String typeRental = TypeRentalValidate.typeRentalValidate();
+        String freeService = FreeServiceValidate.freeServiceValidate();
+        return new Room(codeRoomService, nameService, areaUsable, costsRental, numberPeopleMax, typeRental, freeService);
     }
 }
